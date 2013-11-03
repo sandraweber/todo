@@ -26,7 +26,7 @@
         android:layout_alignLeft="@+id/listViewItems"
         android:layout_alignParentBottom="true"
         android:ems="10"
-        android:hint="Enter new item" >
+        android:hint="@string/hint_enter_new_item" >
 
         <requestFocus />
     </EditText>
@@ -37,6 +37,6 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/listViewItems"
         android:layout_below="@+id/listViewItems"
-        android:text="Add" />
+        android:text="@string/button_add_item" />
 
 </RelativeLayout>
