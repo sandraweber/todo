@@ -22,6 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider android:authorities="ch.mudding.todo.provider" android:name=".provider.TodoContentProvider" android:exported="false"></provider>
     </application>
 
 </manifest>
