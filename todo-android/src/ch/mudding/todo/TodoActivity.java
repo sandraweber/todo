@@ -31,7 +31,7 @@ public class TodoActivity extends Activity {
         
         listViewItems = (ListView) findViewById(R.id.listViewItems);
         items = new ArrayList<String>();
-        itemsAdapter = new ArrayAdapter<String>(this, R.layout.activity_todo, items);
+        itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
         listViewItems.setAdapter(itemsAdapter);
         
         initializeItems();
