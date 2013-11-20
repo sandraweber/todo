@@ -36,8 +36,8 @@ public class TodoContentProvider extends ContentProvider {
 	static {
 		matcher.addURI(AUTHORITY, "todolists", URI_TODO_LISTS_ALL);
 		matcher.addURI(AUTHORITY, "todolists/#", URI_TODO_LISTS_ITEM);
-		matcher.addURI(AUTHORITY, "todos", URI_TODOS_ALL);
-		matcher.addURI(AUTHORITY, "todos/#", URI_TODOS_ITEM);
+		matcher.addURI(AUTHORITY, "todoitems", URI_TODOS_ALL);
+		matcher.addURI(AUTHORITY, "todoitems/#", URI_TODOS_ITEM);
 		matcher.addURI(AUTHORITY, "contacts", URI_CONTACTS_ALL);
 		matcher.addURI(AUTHORITY, "contacts/#", URI_CONTACTS_ITEM);
 		matcher.addURI(AUTHORITY, "comments", URI_COMMENTS_ALL);
@@ -96,7 +96,8 @@ public class TodoContentProvider extends ContentProvider {
 			rowID = db.insert(ToDoLists.TABLE_NAME, null, values);
 			break;
 		case URI_TODOS_ALL:
-			validateMandatoryFields(values, new String[] { ToDos.KEY_TEXT, ToDos.KEY_CREATOR_ID, ToDos.KEY_TODO_LIST_ID, ToDos.KEY_STATUS });
+			validateMandatoryFields(values, new String[] { ToDos.KEY_TEXT, ToDos.KEY_CREATOR_ID, ToDos.KEY_TODO_LIST_ID });
+			setToDefaultIfEmpty(values, ToDos.KEY_STATUS, ToDos.STATUS_CREATED);
 			setToCurrentTimeIfEmpty(values, ToDos.KEY_CREATION_DATE);
 			rowID = db.insert(ToDos.TABLE_NAME, null, values);
 			break;
@@ -121,9 +122,18 @@ public class TodoContentProvider extends ContentProvider {
 			throw new SQLException("Failed to insert row into: " + uri);
 	}
 
+	private void setToDefaultIfEmpty(ContentValues values, String key,
+			String defaultValue) {
+		if (!values.containsKey(key)) {
+			values.put(key, defaultValue);
+		}
+	}
+
 	private void setToCurrentTimeIfEmpty(ContentValues values,
 			String creationDate) {
-		values.put(creationDate, System.currentTimeMillis());
+		if (!values.containsKey(creationDate)) {
+			values.put(creationDate, System.currentTimeMillis());
+		}
 	}
 
 	private void validateMandatoryFields(ContentValues values, String[] mandatoryFields) {

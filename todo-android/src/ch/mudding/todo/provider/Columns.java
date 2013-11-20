@@ -20,6 +20,8 @@ public interface Columns extends BaseColumns {
 		public static final String KEY_CREATOR_ID = "creator_id";
 		public static final String KEY_ASSIGNEE_ID = "assignee_id";
 		public static final String KEY_STATUS = "status";
+
+		public static final String STATUS_CREATED = "created";
 		
 		static final String SQL_TO_CREATE_TABLE = "create table " + TABLE_NAME + " ("
 					+ _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -56,7 +58,7 @@ public interface Columns extends BaseColumns {
 	public static final class ToDoLists implements Columns {
 		private ToDoLists() {}
 
-		static final String TABLE_NAME = "todoItemsTable";
+		static final String TABLE_NAME = "todoListsTable";
 		static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.mudding.todo.todoList";
 		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.mudding.todo.todoList";
 		
