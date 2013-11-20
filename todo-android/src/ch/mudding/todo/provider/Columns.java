@@ -45,12 +45,14 @@ public interface Columns extends BaseColumns {
 		public static final String KEY_ID = "_id";
 		public static final String KEY_FULL_NAME = "fullName";
 		public static final String KEY_MD5_PHONE_NUMBER = "md5PhoneNumber";
+		public static final String KEY_IS_OWNER = "isOwner";
 		public static final String KEY_LOOKUP_KEY = "lookupKey";
 		
 		static final String SQL_TO_CREATE_TABLE = "create table " + TABLE_NAME + " ("
 					+ KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 					+ KEY_FULL_NAME + " TEXT, "
 					+ KEY_MD5_PHONE_NUMBER + " TEXT,"
+					+ KEY_IS_OWNER + " BOOLEAN,"
 					+ KEY_LOOKUP_KEY + " TEXT"
 					+ ");";
 	}

@@ -103,6 +103,7 @@ public class TodoContentProvider extends ContentProvider {
 			break;
 		case URI_CONTACTS_ALL:
 			validateMandatoryFields(values, new String[] { Contacts.KEY_FULL_NAME, Contacts.KEY_LOOKUP_KEY });
+			setToDefaultIfEmpty(values, Contacts.KEY_IS_OWNER, 0);
 			rowID = db.insert(Contacts.TABLE_NAME, null, values);
 			break;
 		case URI_COMMENTS_ALL:
@@ -120,6 +121,13 @@ public class TodoContentProvider extends ContentProvider {
 			return result;
 		} else
 			throw new SQLException("Failed to insert row into: " + uri);
+	}
+
+	private void setToDefaultIfEmpty(ContentValues values, String key,
+			int defaultValue) {
+		if (!values.containsKey(key)) {
+			values.put(key, defaultValue);
+		}
 	}
 
 	private void setToDefaultIfEmpty(ContentValues values, String key,
