@@ -6,5 +6,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="hint_enter_new_item">Enter new item</string>
     <string name="button_add_item">Add</string>
+    <string name="created_by">by</string>
+    <string name="assigned_to">assigned</string>
 
 </resources>
