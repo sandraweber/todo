@@ -48,8 +48,8 @@ public class TodoActivity extends Activity implements LoaderManager.LoaderCallba
         getLoaderManager().initLoader(0, null, this);
         
         listViewItems = (ListView) findViewById(R.id.listViewItems);
-        itemsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, null, new String[] { ToDos.KEY_TEXT, ToDos.KEY_CREATION_DATE }, 
-                new int[] { android.R.id.text1, android.R.id.text2 }, 0);
+        itemsAdapter = new SimpleCursorAdapter(this, R.layout.listview_row_todo, null, new String[] { ToDos.KEY_TEXT, ToDos.JOINED_CREATOR_NAME }, 
+                new int[] { R.id.name, R.id.creator }, 0);
         listViewItems.setAdapter(itemsAdapter);
         
         setupDeleteItemListener();
@@ -200,6 +200,8 @@ public class TodoActivity extends Activity implements LoaderManager.LoaderCallba
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+		cursor.moveToFirst();
+		String[] names = cursor.getColumnNames();
 		itemsAdapter.swapCursor(cursor);
 	}
 

@@ -22,6 +22,9 @@ public interface Columns extends BaseColumns {
 		public static final String KEY_STATUS = "status";
 
 		public static final String STATUS_CREATED = "created";
+
+		public static final String JOINED_CREATOR_NAME = "creator_full_name";
+		public static final String JOINED_ASSIGNEE_NAME = "assignee_full_name";
 		
 		static final String SQL_TO_CREATE_TABLE = "create table " + TABLE_NAME + " ("
 					+ _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
