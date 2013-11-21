@@ -200,8 +200,6 @@ public class TodoActivity extends Activity implements LoaderManager.LoaderCallba
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-		cursor.moveToFirst();
-		String[] names = cursor.getColumnNames();
 		itemsAdapter.swapCursor(cursor);
 	}
 

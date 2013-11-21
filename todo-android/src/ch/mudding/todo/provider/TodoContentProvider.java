@@ -170,20 +170,25 @@ public class TodoContentProvider extends ContentProvider {
 			queryBuilder.appendWhere(ToDoLists._ID + "=" + getId(uri));
 			break;
 		case URI_TODOS_ALL:
-			queryBuilder.setTables(ToDos.TABLE_NAME);
-			break;
-		case URI_TODOS_ITEM:
 			String creatorIdMatches = "(" + Contacts.TABLE_NAME + "." + Contacts._ID + "=" + ToDos.TABLE_NAME + "." + ToDos.KEY_CREATOR_ID + ")";
 			String assigneeIdMatches = "(" + Contacts.TABLE_NAME + "." + Contacts._ID + "=" + ToDos.TABLE_NAME + "." + ToDos.KEY_ASSIGNEE_ID + ")";
 			queryBuilder.setTables(ToDos.TABLE_NAME + " LEFT JOIN " + Contacts.TABLE_NAME + " ON " + creatorIdMatches );
 //					 								+ " LEFT JOIN " + Contacts.TABLE_NAME + "AS assignee ON " + assigneeIdMatches);
-			queryBuilder.appendWhere(ToDos._ID + "=" + getId(uri));
+			
 			
 			Map<String, String> columns = new HashMap<String, String>();
+			columns.put(ToDos.TABLE_NAME + "." + ToDos._ID, ToDos.TABLE_NAME + "." + ToDos._ID);
+			columns.put(ToDos.KEY_TEXT, ToDos.KEY_TEXT);
+			columns.put(ToDos.KEY_STATUS, ToDos.KEY_STATUS);
+			columns.put(ToDos.KEY_CREATION_DATE, ToDos.KEY_CREATION_DATE);
 			columns.put(Contacts.TABLE_NAME + "."+Contacts.KEY_FULL_NAME,  Contacts.TABLE_NAME + "."+Contacts.KEY_FULL_NAME + " AS " + ToDos.JOINED_CREATOR_NAME);
 			//columns.put("assignee."+Contacts.KEY_FULL_NAME, "assignee."+Contacts.KEY_FULL_NAME + " AS " + ToDos.JOINED_ASSIGNEE_NAME);
 			queryBuilder.setProjectionMap(columns);
 			
+			break;
+		case URI_TODOS_ITEM:
+			queryBuilder.setTables(ToDos.TABLE_NAME);
+			queryBuilder.appendWhere(ToDos._ID + "=" + getId(uri));
 			break;
 		case URI_CONTACTS_ALL:
 			queryBuilder.setTables(Contacts.TABLE_NAME);
