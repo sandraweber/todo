@@ -34,7 +34,7 @@
             android:exported="true">
         </activity>
         <activity
-            android:name="ch.mudding.todo.sync.SettingsActivity"
+            android:name="ch.mudding.todo.sync.AccountSettingsActivity"
             android:label="@string/app_name"
             android:exported="true">
         </activity>
