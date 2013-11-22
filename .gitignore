@@ -4,3 +4,5 @@ todo-android/.settings/
 todo-android/bin/
 todo-android/build/
 todo-android/gen/
+todo-android/.classpath
+todo-android/.project
