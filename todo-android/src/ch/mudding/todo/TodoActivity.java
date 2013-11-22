@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -29,7 +30,10 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
+import android.widget.SimpleCursorAdapter.ViewBinder;
+import android.widget.TextView;
 
 public class TodoActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor> {
 	
@@ -48,8 +52,37 @@ public class TodoActivity extends Activity implements LoaderManager.LoaderCallba
         getLoaderManager().initLoader(0, null, this);
         
         listViewItems = (ListView) findViewById(R.id.listViewItems);
-        itemsAdapter = new SimpleCursorAdapter(this, R.layout.listview_row_todo, null, new String[] { ToDos.KEY_TEXT, ToDos.JOINED_CREATOR_NAME }, 
-                new int[] { R.id.name, R.id.creator }, 0);
+        itemsAdapter = new SimpleCursorAdapter(this, R.layout.listview_row_todo, null, new String[] { ToDos.KEY_TEXT, ToDos.JOINED_CREATOR_NAME, ToDos.JOINED_ASSIGNEE_NAME, ToDos.KEY_STATUS }, 
+                new int[] { R.id.todo_row_name, R.id.todo_row_creator, R.id.todo_row_assignee, R.id.status }, 0);
+        itemsAdapter.setViewBinder(new ViewBinder() {
+			@Override
+			public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+				String columnName = cursor.getColumnName(columnIndex);
+				if (columnName.equals(ToDos.JOINED_CREATOR_NAME)) {
+					String creator = getResources().getString(R.string.created_by) + " " + cursor.getString(columnIndex);
+					setText(view, creator);
+					return true;
+				} else if (columnName.equals(ToDos.JOINED_ASSIGNEE_NAME)) {
+					String assignee = cursor.getString(columnIndex);
+					if (assignee != null && !assignee.isEmpty()) {
+						assignee = " / " + getResources().getString(R.string.assigned_to) + " " + assignee;
+						setText(view, assignee);
+					}
+					return true;
+				} else if (columnName.equals(ToDos.KEY_STATUS)) {
+					RelativeLayout viewParent = (RelativeLayout) view.getParent();
+					viewParent.setAlpha((float) 0.5);
+					setText(view, cursor.getString(columnIndex));
+					return true;
+				}
+				return false;
+			}
+
+			private void setText(View view, String text) {
+				TextView textView = (TextView) view;
+				textView.setText(text);
+			}
+		});
         listViewItems.setAdapter(itemsAdapter);
         
         setupDeleteItemListener();
@@ -167,7 +200,14 @@ public class TodoActivity extends Activity implements LoaderManager.LoaderCallba
             public boolean onItemLongClick(AdapterView<?> parent, View view,
                     int position, long rowId) {
             	String where = ToDos._ID + "=" +itemsAdapter.getItemId(position);
-            	getContentResolver().delete(ToDos.CONTENT_URI, where, null);
+            	
+            	Cursor cursor = (Cursor) itemsAdapter.getItem(position);
+            	ContentValues values = new ContentValues();
+            	DatabaseUtils.cursorRowToContentValues(cursor, values);
+            	values.put(ToDos.KEY_STATUS, ToDos.STATUS_COMPLETED);
+            	values.remove(ToDos.JOINED_ASSIGNEE_NAME);
+            	values.remove(ToDos.JOINED_CREATOR_NAME);
+            	getContentResolver().update(ToDos.CONTENT_URI, values, where, null);
             	
                 itemsAdapter.notifyDataSetChanged();
                 return true;

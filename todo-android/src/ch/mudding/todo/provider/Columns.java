@@ -22,6 +22,7 @@ public interface Columns extends BaseColumns {
 		public static final String KEY_STATUS = "status";
 
 		public static final String STATUS_CREATED = "created";
+		public static final String STATUS_COMPLETED = "completed";
 
 		public static final String JOINED_CREATOR_NAME = "creator_full_name";
 		public static final String JOINED_ASSIGNEE_NAME = "assignee_full_name";
