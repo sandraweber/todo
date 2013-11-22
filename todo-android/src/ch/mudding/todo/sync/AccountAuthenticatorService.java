@@ -13,17 +13,17 @@ import android.os.IBinder;
 
 public class AccountAuthenticatorService extends Service {
 	private static final String TAG = "AccountAuthenticatorService";
+	private static AccountAuthenticator authenticator;
 	
 	@Override
 	public IBinder onBind(Intent intent) {
-		if (intent.getAction().equals(android.accounts.AccountManager.ACTION_AUTHENTICATOR_INTENT))
-			return getAuthenticator().getIBinder();
+		if (intent.getAction().equals(android.accounts.AccountManager.ACTION_AUTHENTICATOR_INTENT)) {
+			if (authenticator == null)
+				authenticator = new AccountAuthenticator(this);
+			return authenticator.getIBinder();
+		}
 		else
 			return null;
-	}
-	
-	public AccountAuthenticator getAuthenticator() {
-		return new AccountAuthenticator(this);
 	}
 	
 	/**
