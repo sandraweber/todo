@@ -4,7 +4,7 @@ import ch.mudding.todo.R;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class SettingsActivity extends Activity {
+public class AccountSettingsActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
