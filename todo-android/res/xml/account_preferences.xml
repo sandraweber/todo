@@ -1,0 +1,15 @@
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+            android:title="General Settings" />
+ 
+    <PreferenceScreen
+        android:key="account_settings"
+        android:title="Account Settings"
+        android:summary="Sync frequency, notifications, etc.">
+        <intent
+            android:action="ch.mudding.todo.sync.SettingsActivity.ACTION_SETTINGS"
+            android:targetPackage="ch.mudding.todo"
+            android:targetClass="ch.mudding.todo.sync.SettingsActivity" />
+    </PreferenceScreen>
+</PreferenceScreen>

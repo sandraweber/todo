@@ -1,0 +1,6 @@
+todo-android/local.properties
+todo-android/.gradle/
+todo-android/.settings/
+todo-android/bin/
+todo-android/build/
+todo-android/gen/
